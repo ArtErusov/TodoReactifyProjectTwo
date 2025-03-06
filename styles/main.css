@@ -18,20 +18,42 @@ body{
     display: flex;
     justify-content: center;
 }
-
+/* ----------------- Input Container ----------------- */
 .form-container{
     margin-top: 10vh;
     display: flex;   
     width: 100%;
+    position: relative;
 }
 
 .form-container input{  
+    border: 1px solid #000000;
     flex: 1; 
     height: 54px;
     border-radius: 8px;
     background-color: #262626;
     color: #fff;
     padding: 16px;  
+    
+}
+
+.form-container input.input-error {
+    border: 2px solid #E80000;
+    background-color: #340000;
+}
+
+.error-message {
+    position: absolute;
+    top: 13px;
+    left: 9px;
+    padding: 5px;
+    background: #340000;
+    color: #E80000;
+    display: none; 
+}
+
+.form-container input.input-error + .error-message {
+    display: block;
 }
 
 .form-container button{   
@@ -43,3 +65,4 @@ body{
     background-color: #1E6F9F;
 }
 
+/* --------------------------- */
