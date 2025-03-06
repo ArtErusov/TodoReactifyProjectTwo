@@ -34,6 +34,7 @@ const renderTasks = () => {
 // Работа с инпутом
 const handlerInput = () =>{
 const inputValue = taskInput.value.trim();
+
     if (inputValue == ""){
         taskInput.classList.add("input-error");       
         setTimeout(() => {
