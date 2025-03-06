@@ -65,4 +65,36 @@ body{
     background-color: #1E6F9F;
 }
 
-/* --------------------------- */
+/* --------------task-list------------- */
+
+.task-list li{
+    position: relative;
+    display: flex;
+    margin-top: 20px;
+    padding: 20px 0 ;
+    background-color: #262626;
+    border-radius: 8px;
+    border: 1px solid #333333;    
+}
+
+.task-list li p{
+    font-weight: 400;
+    color: #fff ;
+    margin-left: 20px;
+    width: 620px;
+}
+
+.task-list li input{
+   margin-left: 20px;
+}
+
+.task-list li button{
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    width: 20px;
+    height: 20px;
+}
+
+
+
