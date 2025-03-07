@@ -1,6 +1,9 @@
 const taskInput = document.querySelector(".form-container input");
 const taskInputButton = document.querySelector(".form-container button");
 const taskList = document.querySelector(".task-list"); 
+const taskCounter = document.querySelector(".info-tasks__left span"); 
+const taskCompleted = document.querySelector(".info-tasks__right span"); 
+
 
 const deleteIconSVG = `
 <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -19,8 +22,10 @@ const renderTasks = () => {
     taskList.innerHTML = "";
     tasks.forEach((task, index) => {
         const taskElement = document.createElement("li");
+        taskElement.classList.toggle("completed", task.status);
+        // taskElement.classList.add(`${task.status ? "completed" : "tdsfsd"}`)
         taskElement.innerHTML = `
-            <input type="checkbox" ${task.status ? "checked" : ""} ">
+            <input type="checkbox" ${task.status ? "checked" : ""} " onchange="toggleTaskStatus(${index})">
             <p>${task.text}</p>
             <button onclick="deleteTask(${index})">
                  ${deleteIconSVG} 
@@ -29,6 +34,8 @@ const renderTasks = () => {
         // Позволяет манипулировать с Dom элементом
         taskList.appendChild(taskElement);
     });
+    taskCounter.textContent = `${tasks.length}`;
+    taskCompleted.textContent = `${tasks.filter(task => task.status === true).length} from ${tasks.length}`;
 };
 
 // Работа с инпутом
@@ -54,6 +61,12 @@ const deleteTask = (index) => {
     tasks.splice(index, 1);
     renderTasks(); 
 };
+
+const toggleTaskStatus = (index) => {
+    tasks[index].status = !tasks[index].status;
+    renderTasks();
+};
+
 
 renderTasks() 
 // Удалить
