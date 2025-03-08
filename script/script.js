@@ -3,6 +3,7 @@ const taskInputButton = document.querySelector(".form-container button");
 const taskList = document.querySelector(".task-list"); 
 const taskCounter = document.querySelector(".info-tasks__left span"); 
 const taskCompleted = document.querySelector(".info-tasks__right span"); 
+const emptyTasks = document.getElementById('empty-tasks');
 
 
 const deleteIconSVG = `
@@ -14,8 +15,8 @@ const deleteIconSVG = `
 `;
 
 
-
-const tasks = [{text: 'Hello wor', status: true}, {text: 'Hello wor Hello wor Hello wor Hello wor Hello wor', status: false}];
+const tasks = [];
+// const tasks = [{text: 'Hello wor', status: true}, {text: 'Hello wor Hello wor Hello wor Hello wor Hello wor', status: false}];
 
 // Отрисовка списка задач
 const renderTasks = () => {
@@ -23,7 +24,6 @@ const renderTasks = () => {
     tasks.forEach((task, index) => {
         const taskElement = document.createElement("li");
         taskElement.classList.toggle("completed", task.status);
-        // taskElement.classList.add(`${task.status ? "completed" : "tdsfsd"}`)
         taskElement.innerHTML = `
             <input type="checkbox" ${task.status ? "checked" : ""} " onchange="toggleTaskStatus(${index})">
             <p>${task.text}</p>
@@ -35,7 +35,9 @@ const renderTasks = () => {
         taskList.appendChild(taskElement);
     });
     taskCounter.textContent = `${tasks.length}`;
-    taskCompleted.textContent = `${tasks.filter(task => task.status === true).length} from ${tasks.length}`;
+    taskCompleted.textContent = tasks.length == 0 ? '0' :`${tasks.filter(task => task.status === true).length} from ${tasks.length}`;
+    emptyTasks.classList.toggle("empty-tasks", tasks.length === 0);
+    emptyTasks.classList.toggle("empty-tasks__none", tasks.length != 0);
 };
 
 // Работа с инпутом

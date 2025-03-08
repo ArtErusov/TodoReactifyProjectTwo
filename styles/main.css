@@ -73,6 +73,9 @@ body{
     margin-bottom: 24px;
 }
 
+
+
+
 .info-tasks__left, .info-tasks__right {
     display: flex;
 }
@@ -139,4 +142,32 @@ body{
 
 .task-list li.completed p{
     text-decoration: line-through;
+}
+
+
+/* ----------empty-tasks------------ */
+
+.empty-tasks__none{
+    display: none;
+}
+
+.empty-tasks{
+    width: 100%;
+    border-radius: 15px;
+    border-top: 1px solid #333333;
+    text-align: center;
+}
+
+.empty-tasks img{
+    margin-top: 10vh;
+    margin-bottom: 20px;
+}
+
+.empty-tasks p{
+    color: #808080;
+    margin-top: 5px;
+}
+
+.empty-tasks p:nth-child(3) {
+    font-weight: 400;
 }
