@@ -16,8 +16,22 @@ const deleteIconSVG = `
 `;
 
 
-const tasks = [];
-// const tasks = [{text: 'Hello wor', status: true}, {text: 'Hello wor Hello wor Hello wor Hello wor Hello wor', status: false}];
+let tasks = [];
+
+// Загрузка задач из LocalStorage при инициализации
+const loadTasks = () => {
+    const storedTasks = localStorage.getItem("tasks");
+    if (storedTasks) {
+        tasks = JSON.parse(storedTasks);
+    }
+    renderTasks();
+};
+
+// Сохранение задач в LocalStorage
+const saveTasks = () => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+};
+
 
 // Отрисовка списка задач
 const renderTasks = () => {
@@ -35,10 +49,14 @@ const renderTasks = () => {
         // Позволяет манипулировать с Dom элементом
         taskList.appendChild(taskElement);
     });
+    saveTasks();
     taskCompleted.textContent = tasks.length == 0 ? '0' :`${tasks.filter(task => task.status === true).length} from ${tasks.length}`;
     emptyTasks.classList.toggle("empty-tasks", tasks.length === 0);
     emptyTasks.classList.toggle("empty-tasks__none", tasks.length != 0);
 };
+
+
+
 
 // Сортировка
 const sortStates = ["First: new tasks","First: old tasks", "First: completed", "First: not completed"];
@@ -92,9 +110,8 @@ const toggleTaskStatus = (index) => {
     renderTasks();
 };
 
+loadTasks();
 
-renderTasks() 
-// Удалить
 
 taskInputButton.addEventListener('click', handlerInput)
 sortButton.addEventListener("click", toggleSort);
