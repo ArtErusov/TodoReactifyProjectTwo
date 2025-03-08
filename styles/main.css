@@ -73,26 +73,24 @@ body{
     margin-bottom: 24px;
 }
 
-
-
-
-.info-tasks__left, .info-tasks__right {
-    display: flex;
-}
-
-.info-tasks__left p{
+.info-tasks__sort button{
     color: #4EA8DE;
     font-size: 14px;
     font-weight: 800;
 }
 
-.info-tasks__right p{
+.info-tasks__state {
+    display: flex;
+}
+
+
+.info-tasks__state p{
     color: #8284FA;
     font-size: 14px;
     font-weight: 800;
 }
 
-.info-tasks__left span, .info-tasks__right span{
+.info-tasks__state span{
     color: #ffffff;
     font-size: 12px;
     font-weight: 800;

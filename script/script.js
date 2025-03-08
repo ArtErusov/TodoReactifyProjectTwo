@@ -1,9 +1,10 @@
 const taskInput = document.querySelector(".form-container input");
 const taskInputButton = document.querySelector(".form-container button");
 const taskList = document.querySelector(".task-list"); 
-const taskCounter = document.querySelector(".info-tasks__left span"); 
-const taskCompleted = document.querySelector(".info-tasks__right span"); 
+const taskCompleted = document.querySelector(".info-tasks__state span"); 
 const emptyTasks = document.getElementById('empty-tasks');
+const sortButton = document.querySelector(".info-tasks__sort button");
+
 
 
 const deleteIconSVG = `
@@ -34,11 +35,30 @@ const renderTasks = () => {
         // Позволяет манипулировать с Dom элементом
         taskList.appendChild(taskElement);
     });
-    taskCounter.textContent = `${tasks.length}`;
     taskCompleted.textContent = tasks.length == 0 ? '0' :`${tasks.filter(task => task.status === true).length} from ${tasks.length}`;
     emptyTasks.classList.toggle("empty-tasks", tasks.length === 0);
     emptyTasks.classList.toggle("empty-tasks__none", tasks.length != 0);
 };
+
+// Сортировка
+const sortStates = ["First: new tasks","First: old tasks", "First: completed", "First: not completed"];
+let currentSortIndex = 0;
+
+function toggleSort() {
+    currentSortIndex = (currentSortIndex + 1) % sortStates.length;
+    sortButton.textContent = `${sortStates[currentSortIndex]}`;
+
+    if(currentSortIndex === 0){
+        tasks.sort((a, b) => a.timeAdded - b.timeAdded);
+    }else if(currentSortIndex === 1) {
+        tasks.sort((a, b) => b.timeAdded - a.timeAdded);
+    } else if(currentSortIndex === 2) {
+        tasks.sort((a, b) => b.status - a.status);
+    } else {
+        tasks.sort((a, b) => a.status - b.status);
+    }
+    renderTasks() 
+}
 
 // Работа с инпутом
 const handlerInput = () =>{
@@ -53,17 +73,20 @@ const inputValue = taskInput.value.trim();
         tasks.push({
             text: inputValue,
             status: false,
+            timeAdded: new Date(),
         })
+        console.log(tasks)
         renderTasks()
         taskInput.value = "";
     }
 }
+
 // Удаляем задачу
 const deleteTask = (index) => {
     tasks.splice(index, 1);
     renderTasks(); 
 };
-
+// Обновление статуса и перересовка
 const toggleTaskStatus = (index) => {
     tasks[index].status = !tasks[index].status;
     renderTasks();
@@ -74,3 +97,4 @@ renderTasks()
 // Удалить
 
 taskInputButton.addEventListener('click', handlerInput)
+sortButton.addEventListener("click", toggleSort);
