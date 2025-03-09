@@ -1,3 +1,4 @@
+"use strict";
 const taskInput = document.querySelector(".form-container input");
 const taskInputButton = document.querySelector(".form-container button");
 const taskList = document.querySelector(".task-list"); 
@@ -40,7 +41,7 @@ const renderTasks = () => {
         const taskElement = document.createElement("li");
         taskElement.classList.toggle("completed", task.status);
         taskElement.innerHTML = `
-            <input type="checkbox" ${task.status ? "checked" : ""} " onchange="toggleTaskStatus(${index})">
+            <input type="checkbox" ${task.status ? "checked" : ""}  onchange="toggleTaskStatus(${index})">
             <p>${task.text}</p>
             <button onclick="deleteTask(${index})">
                  ${deleteIconSVG} 
@@ -50,7 +51,7 @@ const renderTasks = () => {
         taskList.appendChild(taskElement);
     });
     saveTasks();
-    taskCompleted.textContent = tasks.length == 0 ? '0' :`${tasks.filter(task => task.status === true).length} from ${tasks.length}`;
+    taskCompleted.textContent = tasks.length ? '0' : `${tasks.filter(task => task.status === true).length} from ${tasks.length}`;
     emptyTasks.classList.toggle("empty-tasks", tasks.length === 0);
     emptyTasks.classList.toggle("empty-tasks__none", tasks.length != 0);
 };
@@ -59,12 +60,12 @@ const renderTasks = () => {
 
 
 // Сортировка
-const sortStates = ["First: new tasks","First: old tasks", "First: completed", "First: not completed"];
+const sortStates = ["First: new tasks", "First: old tasks", "First: completed", "First: not completed"];
 let currentSortIndex = 0;
 
 function toggleSort() {
     currentSortIndex = (currentSortIndex + 1) % sortStates.length;
-    sortButton.textContent = `${sortStates[currentSortIndex]}`;
+    sortButton.textContent = sortStates[currentSortIndex];;
 
     if(currentSortIndex === 0){
         tasks.sort((a, b) => a.timeAdded - b.timeAdded);
@@ -91,7 +92,7 @@ const inputValue = taskInput.value.trim();
         tasks.push({
             text: inputValue,
             status: false,
-            timeAdded: new Date(),
+            timeAdded: Date.now(),
         })
         console.log(tasks)
         renderTasks()
