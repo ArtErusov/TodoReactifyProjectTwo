@@ -51,7 +51,7 @@ const renderTasks = () => {
         taskList.appendChild(taskElement);
     });
     saveTasks();
-    taskCompleted.textContent = tasks.length ? '0' : `${tasks.filter(task => task.status === true).length} from ${tasks.length}`;
+    taskCompleted.textContent = tasks.length ? `${tasks.filter(task => task.status === true).length} from ${tasks.length}` : '0';
     emptyTasks.classList.toggle("empty-tasks", tasks.length === 0);
     emptyTasks.classList.toggle("empty-tasks__none", tasks.length != 0);
 };
