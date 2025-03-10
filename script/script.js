@@ -26,26 +26,6 @@ const saveTasks = () => {
 
 
 // Отрисовка списка задач
-// const renderTasks = () => {
-//     taskList.innerHTML = "";
-//     tasks.forEach((task, index) => {
-//         const taskElement = document.createElement("li");
-//         taskElement.classList.toggle("completed", task.status);
-//         taskElement.innerHTML = `
-//             <input type="checkbox" ${task.status ? "checked" : ""}  onchange="toggleTaskStatus(${index})">
-//             <p>${task.text}</p>
-//             <button onclick="deleteTask(${index})">
-//                  ${deleteIconSVG} 
-//             </button>
-//         `;
-//         // Позволяет манипулировать с Dom элементом
-//         taskList.appendChild(taskElement);
-//     });
-//     saveTasks();
-//     taskCompleted.textContent = tasks.length ? `${tasks.filter(task => task.status === true).length} from ${tasks.length}` : '0';
-//     emptyTasks.classList.toggle("empty-tasks", tasks.length === 0);
-//     emptyTasks.classList.toggle("empty-tasks__none", tasks.length != 0);
-// };
 
 const renderTasks = () => {
     taskList.innerHTML = "";
@@ -123,13 +103,21 @@ const inputValue = taskInput.value.trim();
 // Удаляем задачу
 const deleteTask = (index) => {
     tasks.splice(index, 1);
-    renderTasks(); 
+    saveTasks(); 
+    taskList.children[index].remove();
+
+    taskCompleted.textContent = tasks.length ? `${tasks.filter(task => task.status === true).length} from ${tasks.length}` : '0';
+    emptyTasks.classList.toggle("empty-tasks", tasks.length === 0);
+    emptyTasks.classList.toggle("empty-tasks__none", tasks.length != 0);
 };
+
+
 // Обновление статуса и перересовка
 const toggleTaskStatus = (index) => {
     tasks[index].status = !tasks[index].status;
     renderTasks();
 };
+
 
 loadTasks();
 
