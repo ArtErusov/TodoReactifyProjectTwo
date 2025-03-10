@@ -113,6 +113,8 @@ const toggleTaskStatus = (index) => {
 
 loadTasks();
 
-
+taskInput.addEventListener('keydown', (e) => {
+    if (e.code == 'Enter') {handlerInput()}
+});
 taskInputButton.addEventListener('click', handlerInput)
 sortButton.addEventListener("click", toggleSort);
