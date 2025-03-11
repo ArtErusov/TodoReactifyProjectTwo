@@ -26,7 +26,6 @@ const saveTasks = () => {
 
 
 // Отрисовка списка задач
-
 const renderTasks = () => {
     taskList.innerHTML = "";
     tasks.forEach((task, index) => {
@@ -40,6 +39,7 @@ const renderTasks = () => {
 
         const taskText = document.createElement("p");
             taskText.textContent = task.text;
+            // taskText.addEventListener("click", () => enableEditing(taskText, index));
 
         const deleteButton = document.createElement("button");
             deleteButton.innerHTML = deleteIconSVG;
@@ -55,7 +55,6 @@ const renderTasks = () => {
     emptyTasks.classList.toggle("empty-tasks", tasks.length === 0);
     emptyTasks.classList.toggle("empty-tasks__none", tasks.length != 0);
 };
-
 
 
 
@@ -104,11 +103,17 @@ const inputValue = taskInput.value.trim();
 const deleteTask = (index) => {
     tasks.splice(index, 1);
     saveTasks(); 
-    taskList.children[index].remove();
-
-    taskCompleted.textContent = tasks.length ? `${tasks.filter(task => task.status === true).length} from ${tasks.length}` : '0';
-    emptyTasks.classList.toggle("empty-tasks", tasks.length === 0);
-    emptyTasks.classList.toggle("empty-tasks__none", tasks.length != 0);
+    // Проверка: часто не удаляет последний элемент
+    if (tasks.length <= 1){
+        console.log("Ререндерим весь элемент")
+        renderTasks();
+    } else {
+        console.log("Простое удаление")
+        taskList.children[index].remove();
+        taskCompleted.textContent = tasks.length ? `${tasks.filter(task => task.status === true).length} from ${tasks.length}` : '0';
+        emptyTasks.classList.toggle("empty-tasks", tasks.length === 0);
+        emptyTasks.classList.toggle("empty-tasks__none", tasks.length != 0);
+    }
 };
 
 
@@ -120,6 +125,7 @@ const toggleTaskStatus = (index) => {
 
 
 loadTasks();
+
 
 taskInput.addEventListener('keydown', (e) => {
     if (e.code == 'Enter') {handlerInput()}
