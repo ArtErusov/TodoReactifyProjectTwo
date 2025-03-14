@@ -2,7 +2,7 @@ export const editingTask = (taskText, index, tasks) => {
     const input = document.createElement("input");
     input.type = "text";
     input.value = tasks[index].text;
-    input.classList.add("edit-input");
+    input.classList.add("editing-input");
 
     input.addEventListener("blur", () => saveEditedTask(input, taskText, index, tasks));
     input.addEventListener("keydown", (e) => {
@@ -21,3 +21,4 @@ export const saveEditedTask = (input, taskText, index, tasks) => {
     input.replaceWith(taskText); 
     taskText.textContent = tasks[index].text; 
 };
+

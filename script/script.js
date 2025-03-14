@@ -26,6 +26,8 @@ const saveTasks = () => {
 };
 
 
+
+
 // Отрисовка списка задач
 const renderTasks = () => {
     taskList.innerHTML = "";
@@ -33,6 +35,13 @@ const renderTasks = () => {
         const taskElement = document.createElement("li");
             taskElement.classList.toggle("completed", task.status);
             taskElement.addEventListener("click", () => editingTask(taskText, index, tasks));
+            taskElement.setAttribute("draggable", "true"); // Делаем элемент перетаскиваемым
+            taskElement.setAttribute("data-index", index);
+
+            taskElement.addEventListener("dragstart", handleDragStart);
+            taskElement.addEventListener("dragover", handleDragOver);
+            taskElement.addEventListener("drop", handleDrop);
+            taskElement.addEventListener("dragend", handleDragEnd);
 
         const checkbox = document.createElement("input");
             checkbox.type = "checkbox";
@@ -78,6 +87,40 @@ function toggleSort() {
         tasks.sort((a, b) => a.status - b.status);
     }
     renderTasks() 
+}
+
+// Drag and Drop обработчики
+let draggedItem = null;
+
+function handleDragStart(e) {
+    draggedItem = this;
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/plain", this.dataset.index); // Передаем индекс
+    setTimeout(() => this.classList.add("dragging"), 0); // Добавляем класс для стилизации
+}
+
+function handleDragOver(e) {
+    e.preventDefault(); // Разрешаем drop
+    e.dataTransfer.dropEffect = "move";
+}
+
+function handleDrop(e) {
+    e.preventDefault();
+    const fromIndex = parseInt(e.dataTransfer.getData("text/plain"));
+    const toIndex = parseInt(this.dataset.index);
+
+    if (fromIndex !== toIndex) {
+        // Перемещаем задачу в массиве
+        const [movedTask] = tasks.splice(fromIndex, 1);
+        tasks.splice(toIndex, 0, movedTask);
+        saveTasks();
+        renderTasks(); // Перерисовываем список
+    }
+}
+
+function handleDragEnd() {
+    this.classList.remove("dragging");
+    draggedItem = null;
 }
 
 // Работа с инпутом

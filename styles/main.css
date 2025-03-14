@@ -117,19 +117,30 @@ body{
 
 .task-list li p{
     font-weight: 400;
-    color: #fff ;
+    color: #fff ; 
     margin-left: 20px;
     width: 620px;
 }
 
+.task-list li.dragging {
+    opacity: 0.9; /* Полупрозрачность при перетаскивании */
+    background-color: #333; /* Легкое изменение фона */
+}
+
 .task-list li input{
    margin-left: 20px;
+
+}
+.editing-input{
+  color: #fff ;  
+  /* width: 100%; */
 }
 
 .task-list li button{
     position: absolute;
     right: 20px;
-    top: 20px;
+    top: 50%;
+    transform: translateY(-50%);
     width: 20px;
     height: 20px;
 }
