@@ -7,6 +7,7 @@ const emptyTasks = document.getElementById('empty-tasks');
 const sortButton = document.querySelector(".info-tasks__sort button");
 
 import { deleteIconSVG } from "./deleteIconSVG.js";
+import { editingTask, saveEditedTask } from "./editingTask.js";
 
 let tasks = [];
 
@@ -31,7 +32,7 @@ const renderTasks = () => {
     tasks.forEach((task, index) => {
         const taskElement = document.createElement("li");
             taskElement.classList.toggle("completed", task.status);
-            taskElement.addEventListener("click", () => editingTask(taskText, index));
+            taskElement.addEventListener("click", () => editingTask(taskText, index, tasks));
 
         const checkbox = document.createElement("input");
             checkbox.type = "checkbox";
@@ -115,31 +116,6 @@ const deleteTask = (index) => {
         emptyTasks.classList.toggle("empty-tasks", tasks.length === 0);
         emptyTasks.classList.toggle("empty-tasks__none", tasks.length != 0);
     }
-};
-
-
-// Редактируем задачу
-const editingTask = (taskText, index) => {
-    const input = document.createElement("input");
-    input.type = "text";
-    input.value = tasks[index].text;
-    input.classList.add("edit-input");
-
-    input.addEventListener("blur", () => saveEditedTask(input, taskText, index));
-    input.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") {
-            saveEditedTask(input, taskText, index);
-        }
-    });
-
-    taskText.replaceWith(input);
-    input.focus();
-};
-
-const saveEditedTask = (input, taskText, index) => {
-    tasks[index].text = input.value.trim() || tasks[index].text;
-    saveTasks();
-    renderTasks();
 };
 
 
